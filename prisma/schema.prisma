@@ -18,3 +18,14 @@ model Post {
 
     @@index([name])
 }
+
+model Employee{
+    id Int @id @default(autoincrement())
+    name String
+    empId Int @unique
+    department String
+    dob String
+    gender String
+    designation String  
+    Salary Int
+}
