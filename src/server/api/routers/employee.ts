@@ -18,7 +18,7 @@ export const employeeRouter = createTRPCRouter({
         name: z.string(),
         empId: z.number(),
         department: z.string(),
-        dob: z.string(),
+        dob: z.date(),
         gender: z.string(),
         designation: z.string(),
         Salary: z.number(),

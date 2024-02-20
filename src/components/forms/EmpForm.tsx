@@ -52,7 +52,7 @@ const EmpForm = () => {
       empId: "",
       department: "",
       dob: "",
-      gender: "",
+      gender: "male",
       designation: "",
       Salary: "",
     },
@@ -63,20 +63,20 @@ const EmpForm = () => {
       router.refresh();
     },
   });
-  function onSubmit (data: z.infer<typeof formSchema>) {
+  function onSubmit(data: z.infer<typeof formSchema>) {
     startTransition(async () => {
       await createEmployees.mutateAsync({
         name: data.name,
         empId: parseInt(data.empId),
         department: data.department,
-        dob: data.dob,
+        dob: new Date(data.dob),
         gender: data.gender,
         designation: data.designation,
-        Salary: parseInt( data.Salary),
+        Salary: parseInt(data.Salary),
       });
       router.push("/display");
     });
-  };
+  }
   return (
     <div className="mx-auto w-1/2">
       <h1 className="m-2 py-4 text-4xl">Employee Form</h1>
@@ -154,7 +154,7 @@ const EmpForm = () => {
               <FormItem>
                 <FormLabel>Date of Birth</FormLabel>
                 <FormControl>
-                  <Input placeholder="Date of birth" {...field} />
+                  <Input type="date" placeholder="Date of birth" {...field} />
                 </FormControl>
                 <FormDescription>
                   This is your public display name.
@@ -163,7 +163,7 @@ const EmpForm = () => {
               </FormItem>
             )}
           />
-          <FormField
+          {/* <FormField
             control={form.control}
             name="gender"
             render={({ field }) => (
@@ -186,22 +186,25 @@ const EmpForm = () => {
                 <FormDescription>Specify your Gender</FormDescription>
                 <FormMessage />
               </FormItem>
-            )}
-          />
-           {/* <FormField
+            )} */}
+          {/* /> */}
+          <FormField
             control={form.control}
             name="gender"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Gender</FormLabel>
                 <FormControl>
-                  <RadioGroup defaultValue="gender">
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="Male" id="r1" />
+                      <RadioGroupItem value="male" id="r1" />
                       <Label htmlFor="r1">Male</Label>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="comfortable" id="r2" />
+                      <RadioGroupItem value="female" id="r2" />
                       <Label htmlFor="r2">Female</Label>
                     </div>
                   </RadioGroup>
@@ -210,7 +213,7 @@ const EmpForm = () => {
                 <FormMessage />
               </FormItem>
             )}
-          /> */}
+          />
           <FormField
             control={form.control}
             name="designation"

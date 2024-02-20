@@ -24,7 +24,7 @@ model Employee{
     name String
     empId Int @unique
     department String
-    dob String
+    dob DateTime
     gender String
     designation String  
     Salary Int

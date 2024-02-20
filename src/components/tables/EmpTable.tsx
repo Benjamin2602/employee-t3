@@ -12,10 +12,10 @@ import {
 import { api } from "@/trpc/server";
 
 const EmpTable = async () => {
-    const employees = await api.employee.findMany.query();
+  const employees = await api.employee.findMany.query();
   return (
     <div>
-            <Table className="mt-3 border">
+      <Table className="mt-3 border">
         <TableHeader>
           <TableRow>
             <TableHead>name</TableHead>
@@ -25,27 +25,24 @@ const EmpTable = async () => {
             <TableHead>gender</TableHead>
             <TableHead>designation</TableHead>
             <TableHead>Salary</TableHead>
-          
           </TableRow>
         </TableHeader>
         <TableBody className="">
           {employees?.map((employee) => (
             <TableRow key={employee.id}>
               <TableCell>{employee.name}</TableCell>
-                <TableCell>{employee.empId}</TableCell>
+              <TableCell>{employee.empId}</TableCell>
               <TableCell>{employee.department}</TableCell>
-                <TableCell>{employee.dob}</TableCell>
+              <TableCell>{employee.dob.toLocaleDateString()}</TableCell>
               <TableCell>{employee.gender}</TableCell>
-                <TableCell>{employee.designation}</TableCell>
-                <TableCell>{employee.Salary}</TableCell>
-              
-         
+              <TableCell>{employee.designation}</TableCell>
+              <TableCell>{employee.Salary}</TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-        </div>
-  )
-}
+    </div>
+  );
+};
 
-export default EmpTable
+export default EmpTable;
