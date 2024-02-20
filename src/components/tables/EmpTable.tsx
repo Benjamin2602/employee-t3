@@ -10,12 +10,14 @@ import {
 } from "@/components/ui/table";
 
 import { api } from "@/trpc/server";
+import { Button } from "../ui/button";
+import Link from "next/link";
 
 const EmpTable = async () => {
   const employees = await api.employee.findMany.query();
   return (
     <div>
-      <Table className="mt-3 border">
+      <Table className="mx-auto mt-3 w-1/2 border">
         <TableHeader>
           <TableRow>
             <TableHead>name</TableHead>
@@ -41,6 +43,11 @@ const EmpTable = async () => {
           ))}
         </TableBody>
       </Table>
+      <div className="flex items-center justify-center">
+        <Button className="mt-2">
+          <Link href="/">Add Employee</Link>
+        </Button>
+      </div>
     </div>
   );
 };

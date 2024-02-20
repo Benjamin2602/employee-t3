@@ -31,6 +31,7 @@ import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Label } from "@radix-ui/react-label";
 import { useRouter } from "next/navigation";
 import { api } from "@/trpc/react";
+import Link from "next/link";
 
 const EmpForm = () => {
   const [isPending, startTransition] = useTransition();
@@ -93,7 +94,7 @@ const EmpForm = () => {
                   <Input placeholder="employee name" {...field} />
                 </FormControl>
                 <FormDescription>
-                  This is your public display name.
+                  Your full name as per the company records
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -109,7 +110,7 @@ const EmpForm = () => {
                   <Input placeholder="123" {...field} />
                 </FormControl>
                 <FormDescription>
-                  This is your public display name.
+                  specify your employee id, it should be unique
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -141,7 +142,7 @@ const EmpForm = () => {
                   </Select>
                 </FormControl>
                 <FormDescription>
-                  This is your public display name.
+                  specify your department
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -156,38 +157,12 @@ const EmpForm = () => {
                 <FormControl>
                   <Input type="date" placeholder="Date of birth" {...field} />
                 </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
+                <FormDescription>specify your date of birth</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-          {/* <FormField
-            control={form.control}
-            name="gender"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Gender</FormLabel>
-                <FormControl>
-                <Select onValueChange={field.onChange}>
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="gender" {...field} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Select the gender</SelectLabel>
-                        <SelectItem value="male">Male</SelectItem>
-                        <SelectItem value="female">Female</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormDescription>Specify your Gender</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )} */}
-          {/* /> */}
+
           <FormField
             control={form.control}
             name="gender"
@@ -242,7 +217,12 @@ const EmpForm = () => {
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+          <div className="flex gap-10">
+            <Button type="submit">Submit</Button>
+            <Button className="">
+              <Link href="/display">Employee Detail</Link>
+            </Button>
+          </div>
         </form>
       </Form>
     </div>
