@@ -89,7 +89,7 @@ const EmpForm = () => {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Username</FormLabel>
+                <FormLabel>Employee Name</FormLabel>
                 <FormControl>
                   <Input placeholder="employee name" {...field} />
                 </FormControl>

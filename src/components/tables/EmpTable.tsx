@@ -17,6 +17,7 @@ const EmpTable = async () => {
   const employees = await api.employee.findMany.query();
   return (
     <div>
+      
       <Table className="mx-auto mt-3 w-1/2 border">
         <TableHeader>
           <TableRow>
