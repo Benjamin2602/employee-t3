@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 
 import {
@@ -9,15 +10,28 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { api } from "@/trpc/server";
+import { api } from "@/trpc/react";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-const EmpTable = async () => {
-  const employees = await api.employee.findMany.query();
+const EmpTable = () => {
+  const utils = api.useUtils();
+  const { data: employees } = api.employee.findMany.useQuery();
+  const router = useRouter();
+  const { mutate: deleteEmployee } = api.employee.deleteEmployee.useMutation({
+    onSuccess: async () => {
+      await utils.employee.invalidate();
+      router.refresh();
+    },
+  });
+  function onClicks(id: number) {
+    deleteEmployee({ id });
+    // router.push("/detail");
+  }
+
   return (
     <div>
-      
       <Table className="mx-auto mt-3 w-1/2 border">
         <TableHeader>
           <TableRow>
@@ -29,6 +43,7 @@ const EmpTable = async () => {
             <TableHead>designation</TableHead>
             <TableHead>Salary</TableHead>
             <TableHead>Edit</TableHead>
+            <TableHead>Remove</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody className="">
@@ -45,6 +60,9 @@ const EmpTable = async () => {
                 <Link href={`/update/${employee.id}`}>
                   <Button>Update</Button>
                 </Link>
+              </TableCell>
+              <TableCell>
+                <Button onClick={() => onClicks(employee.id)}>Delete</Button>
               </TableCell>
             </TableRow>
           ))}

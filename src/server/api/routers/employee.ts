@@ -83,4 +83,18 @@ export const employeeRouter = createTRPCRouter({
       });
       return employee;
     }),
+
+    //delete employee
+  deleteEmployee: publicProcedure
+  .input(
+    z.object({
+      id: z.number(),
+    }),
+  )
+  .mutation(async ({ input, ctx }) => {
+    const deleteEmp = await ctx.db.employee.delete({
+      where: { id: input.id },
+    });
+    return deleteEmp;
+  }),
 });
