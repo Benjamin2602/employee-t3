@@ -27,16 +27,18 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "../ui/textarea";
 
-import React, { useTransition } from "react";
+import React, { useEffect, useTransition } from "react";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Label } from "../ui/label";
 import { useRouter } from "next/navigation";
 import { api } from "@/trpc/react";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
-const EmpForm = () => {
+const UpdateForm = () => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+  const params = useParams<{ id: string }>();
   const formSchema = z.object({
     name: z.string().min(1).max(30),
     empId: z.string().min(1).max(20),
@@ -60,14 +62,31 @@ const EmpForm = () => {
     },
   });
 
-  const createEmployees = api.employee.createEmployee.useMutation({
+  const { data: employee } = api.employee.getEmployee.useQuery({
+    id: parseInt(params.id),
+  });
+
+  useEffect(() => {
+    if (employee) {
+      form.setValue("name", employee.name);
+      form.setValue("empId", employee.empId.toString());
+      form.setValue("department", employee.department);
+      form.setValue("dob", employee.dob.toLocaleString());
+      form.setValue("gender", employee.gender);
+      form.setValue("designation", employee.designation);
+      form.setValue("Salary", employee.Salary.toString());
+    }
+  }, [employee , form]);
+
+  const updateEmployeess = api.employee.updateEmployee.useMutation({
     onSuccess: () => {
-      router.refresh();
+      router.push("/display");
     },
   });
   function onSubmit(data: z.infer<typeof formSchema>) {
     startTransition(async () => {
-      await createEmployees.mutateAsync({
+      await updateEmployeess.mutateAsync({
+        id: parseInt(params.id),
         name: data.name,
         empId: parseInt(data.empId),
         department: data.department,
@@ -143,9 +162,7 @@ const EmpForm = () => {
                     </SelectContent>
                   </Select>
                 </FormControl>
-                <FormDescription>
-                  specify your department
-                </FormDescription>
+                <FormDescription>specify your department</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -231,4 +248,4 @@ const EmpForm = () => {
   );
 };
 
-export default EmpForm;
+export default UpdateForm;

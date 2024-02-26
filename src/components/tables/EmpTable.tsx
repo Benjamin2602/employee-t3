@@ -28,6 +28,7 @@ const EmpTable = async () => {
             <TableHead>gender</TableHead>
             <TableHead>designation</TableHead>
             <TableHead>Salary</TableHead>
+            <TableHead>Edit</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody className="">
@@ -40,6 +41,11 @@ const EmpTable = async () => {
               <TableCell>{employee.gender}</TableCell>
               <TableCell>{employee.designation}</TableCell>
               <TableCell>{employee.Salary}</TableCell>
+              <TableCell>
+                <Link href={`/update/${employee.id}`}>
+                  <Button>Update</Button>
+                </Link>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
